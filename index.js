@@ -15,7 +15,6 @@ const upload = multer({ dest: "uploads/" });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Upload route
 app.post("/upload/:category", upload.single("video"), async (req, res) => {
   const filePath = req.file.path;
   const { category } = req.params;
@@ -57,7 +56,6 @@ app.post("/upload/:category", upload.single("video"), async (req, res) => {
   }
 });
 
-// Random video fetch
 app.get("/random/:category", (req, res) => {
   const category = req.params.category.toLowerCase();
 
@@ -73,4 +71,10 @@ app.get("/random/:category", (req, res) => {
         category,
         total: rows.length,
         randomVideo: random.url,
-        uploadedBy: random.u
+        uploadedBy: random.uploader,
+      });
+    }
+  );
+});
+
+app.listen(PORT, () => console.log(`API running at http://localhost:${PORT}`));
